@@ -12,7 +12,7 @@ const navigationOptions = {
 
 const App = StackNavigator({
     Home: { screen: RaceList, navigationOptions },
-    Race: { screen: RaceDetails, navigationOptions },
+    Race: { screen: RaceDetails, navigationOptions }
   }
 );
 
