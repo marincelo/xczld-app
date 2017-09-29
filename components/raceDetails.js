@@ -1,15 +1,32 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { Header, List, ListItem, Text } from 'react-native-elements';
+import { FlatList, StyleSheet, View, SectionList } from 'react-native';
+import { List, ListItem, Text } from 'react-native-elements';
 
 export default class RaceList extends React.Component {
     state = {
         race: {},
         refreshing: false
-    }
+    };
+
+    categories = ['zene', 'u16', '16-20', '20-30', '30-40', '40-50', '50+'];
 
     componentDidMount() {
         this.loadRace()
+    }
+
+    getSectionsWithData = () => {
+        const sections = [];
+        if(this.state.race.race_results) {
+            this.categories.forEach(category => {
+                sections.push({
+                    title: category.toUpperCase(),
+                    data: this.state.race.race_results.filter(rr => {
+                        return rr.racer.category === category
+                    })
+                })
+            })
+        }
+        return sections;
     }
 
     loadRace = () => {
@@ -29,24 +46,32 @@ export default class RaceList extends React.Component {
         const {race, refreshing} = this.state;
 
         return (<View style={style}>
-            <Header
-              centerComponent={{ text: 'XCZLD', style: { color: '#fff' } }}
-              backgroundColor="#009688"
-            />
             <Text h2 style={{textAlign: 'center'}}>
               {race && race.name}
             </Text>
+            <Text h4 style={{ marginTop: 10, marginLeft: 20 }}>
+                Natjecatelji
+                <Text style={{ color: '#ff5252' }}> {race.race_results && race.race_results.length}</Text>
+            </Text>
             <List>
-                <FlatList
-                  keyExtractor={(item, index) => item.id}
-                  renderItem={({item})=>(<ListItem
-                      title={`${item.racer.first_name} ${item.racer.last_name}`}
-                      subtitle={`Kategorija ${item.racer.category}`}
+                <SectionList
+                    keyExtractor={(item, index) => item.id}
+                    ListEmptyComponent={<Text> Ucitavam... </Text>}
+                    refreshing={refreshing}
+                    onRefresh={this.loadRace}
+                    sections={this.getSectionsWithData()}
+                    renderSectionHeader={({section}) => (<ListItem
+                      titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
+                      title={section.title}
+                      hideChevron={true}
                     />)}
-                  data={race.race_results}
-                  ListEmptyComponent={<Text> Ucitavam... </Text>}
-                  refreshing={refreshing}
-                  onRefresh={this.loadRace}
+                    renderItem={({item})=>(<ListItem
+                      leftIcon={<Text style={{ fontWeight: 'bold', color: '#ff5252', paddingTop: 12, paddingRight: 10, fontSize: 16 }}> {item.racer.start_number.value} </Text>}
+                      title={`${item.racer.first_name} ${item.racer.last_name}`}
+                      subtitleNumberOfLines={3}
+                      subtitle={`Kategorija: ${item.racer.category.toUpperCase()}  Vrijeme: ${item.finish_time}  Bodovi: ${item.points || '- -'}`}
+                      rightTitle={item.racer.club.name}
+                    />)}
                 />
             </List>
           </View>)
@@ -55,4 +80,5 @@ export default class RaceList extends React.Component {
 
 const style = {
     height: '80%',
+    marginTop: 75
 }

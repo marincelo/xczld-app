@@ -34,6 +34,8 @@ export default class RaceList extends React.Component {
                 keyExtractor={(item, index) => item.id}
                 renderItem={({item})=>(<ListItem
                     title={`${item.name}`}
+                    subtitle={ (new Date(item.date)).toLocaleString() }
+                    rightTitle={ item.ended_at ? 'Zavrsena' : 'Nadolazeca' }
                     onPress={ () => navigate('Race', {raceId: item.id}) }
                     />)}
                 data={races}
