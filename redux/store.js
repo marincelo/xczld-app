@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import races from './modules/races';
 
