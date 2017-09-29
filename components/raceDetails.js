@@ -11,43 +11,65 @@ export default class RaceList extends React.Component {
     categories = ['zene', 'u16', '16-20', '20-30', '30-40', '40-50', '50+'];
 
     componentDidMount() {
-        this.loadRace()
+        this.loadRace();
     }
 
     getSectionsWithData = () => {
         const { race_results } = this.state.race;
         const sections = [];
 
-        if(race_results) {
+        if (race_results) {
             this.categories.forEach(category => {
                 sections.push({
                     title: category.toUpperCase(),
-                    data: race_results.filter(rr => {
-                        return rr.racer.category === category
-                    })
-                })
-            })
+                    data: race_results.filter(({racer}) => racer.category === category)
+                });
+            });
         }
         return sections;
     }
 
     loadRace = () => {
-        const { params } = this.props.navigation.state
+        const { params } = this.props.navigation.state;
 
-        this.setState({refreshing: true})
+        this.setState({refreshing: true});
 
         fetch(`http://xczld.herokuapp.com/races/${params.raceId}.json`)
         .then(response => response.json())
         .then(json => {
-            this.setState({race: json, refreshing: false})
+            this.setState({race: json, refreshing: false});
         })
-        .catch(error => console.log(error))
+        .catch(error => console.log(error));
     }
+
+    getItemSubtitle = (item, racer) => {
+        if (this.state.race.ended_at) {
+            return `Kategorija: ${racer.category.toUpperCase()}  Vrijeme: ${item.finish_time}  Bodovi: ${item.points}`;
+        }
+        else {
+            return `Kategorija: ${racer.category.toUpperCase()}`;
+        }
+    }
+
+    renderSectionHeader = ({section}) => (<ListItem
+        titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
+        title={section.title}
+        hideChevron={true}
+      />);
+
+renderListItem = ({item, item: {racer}})=>(<ListItem
+        leftIcon={<Text style={styles.leftIcon}> {racer.start_number.value} </Text>}
+        title={`${racer.first_name} ${racer.last_name}`}
+        subtitleNumberOfLines={2}
+        subtitle={this.getItemSubtitle(item, racer)}
+        rightTitle={racer.club.name}
+        hideChevron={true}
+      />);
 
     render() {
         const {race, refreshing} = this.state;
 
-        return (<View style={style}>
+        return (<View style={styles.container}>
             <Text h2 style={{textAlign: 'center'}}>
               {race && race.name}
             </Text>
@@ -62,25 +84,24 @@ export default class RaceList extends React.Component {
                     refreshing={refreshing}
                     onRefresh={this.loadRace}
                     sections={this.getSectionsWithData()}
-                    renderSectionHeader={({section}) => (<ListItem
-                      titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
-                      title={section.title}
-                      hideChevron={true}
-                    />)}
-                    renderItem={({item})=>(<ListItem
-                      leftIcon={<Text style={{ fontWeight: 'bold', color: '#ff5252', paddingTop: 12, paddingRight: 10, fontSize: 16 }}> {item.racer.start_number.value} </Text>}
-                      title={`${item.racer.first_name} ${item.racer.last_name}`}
-                      subtitleNumberOfLines={3}
-                      subtitle={`Kategorija: ${item.racer.category.toUpperCase()}  Vrijeme: ${item.finish_time}  Bodovi: ${item.points || '- -'}`}
-                      rightTitle={item.racer.club.name}
-                    />)}
+                    renderSectionHeader={this.renderSectionHeader}
+                    renderItem={this.renderListItem}
                 />
             </List>
-          </View>)
+          </View>);
     }
 }
 
-const style = {
-    height: '80%',
-    marginTop: 75
-}
+const styles = {
+    container: {
+        height: '80%',
+        marginTop: 75
+    },
+    leftIcon: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#ff5252',
+        paddingTop: 8,
+        paddingRight: 10
+    }
+};
