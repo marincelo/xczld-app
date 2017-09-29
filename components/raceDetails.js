@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, View, SectionList } from 'react-native';
+import { View, SectionList } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
 
 export default class RaceList extends React.Component {

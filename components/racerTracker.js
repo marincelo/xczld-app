@@ -10,7 +10,6 @@ export default class RacerTracker extends React.Component {
     componentDidMount() {
         this.geoWatchId = navigator.geolocation.watchPosition(
           position => {
-            console.log(position)
             this.setState({position});
           },
           error => {
