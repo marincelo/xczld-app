@@ -1,6 +1,6 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { Header, List, ListItem, Text } from 'react-native-elements';
+import { FlatList, View } from 'react-native';
+import { List, ListItem, Text } from 'react-native-elements';
 
 export default class RaceList extends React.Component {
     state = {
@@ -9,23 +9,22 @@ export default class RaceList extends React.Component {
     }
 
     componentDidMount() {
-        this.loadRaces()
+        this.loadRaces();
     }
 
     loadRaces = () => {
-        this.setState({refreshing: true})
+        this.setState({refreshing: true});
 
         fetch('http://xczld.herokuapp.com/races.json')
         .then(response => response.json())
         .then(json => {
-            this.setState({races: json, refreshing: false})
+            this.setState({races: json, refreshing: false});
         })
-        .catch(error => console.log(error))
+        .catch(error => console.log(error));
     }
 
     render() {
         const { races, refreshing } = this.state;
-        const { setRace } = this.props;
         const { navigate } = this.props.navigation;
 
         return (<View>
@@ -44,11 +43,11 @@ export default class RaceList extends React.Component {
                 refreshing={refreshing}
                 />
             </List>
-        </View>)
+        </View>);
     }
 }
 
 const style = {
     height: '80%',
     marginTop: 70,
-}
+};
