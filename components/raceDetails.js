@@ -57,7 +57,7 @@ export default class RaceList extends React.Component {
         hideChevron={true}
       />);
 
-renderListItem = ({item, item: {racer}})=>(<ListItem
+    renderListItem = ({item, item: {racer}})=>(<ListItem
         leftIcon={<Text style={styles.leftIcon}> {racer.start_number.value} </Text>}
         title={`${racer.first_name} ${racer.last_name}`}
         subtitleNumberOfLines={2}
