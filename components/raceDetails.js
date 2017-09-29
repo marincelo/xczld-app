@@ -15,12 +15,14 @@ export default class RaceList extends React.Component {
     }
 
     getSectionsWithData = () => {
+        const { race_results } = this.state.race;
         const sections = [];
-        if(this.state.race.race_results) {
+
+        if(race_results) {
             this.categories.forEach(category => {
                 sections.push({
                     title: category.toUpperCase(),
-                    data: this.state.race.race_results.filter(rr => {
+                    data: race_results.filter(rr => {
                         return rr.racer.category === category
                     })
                 })
