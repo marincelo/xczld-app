@@ -174,10 +174,6 @@
     "no-restricted-modules": 1,      // restrict usage of specified node modules (off by default)
     "no-sync": 0,                    // disallow use of synchronous methods (off by default)
 
-  // Prettier Plugin
-  // https://github.com/prettier/eslint-plugin-prettier
-    "prettier/prettier": [2, "fb", "@format"],
-
   // Stylistic Issues
   // These rules are purely matters of style and are quite subjective.
 
