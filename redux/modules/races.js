@@ -1,7 +1,6 @@
 import expand from '../expand';
 import raceList from '../../components/raceList';
 import client from '../../utils/apiClient';
-import noop from '../../utils/noop';
 
 const initialState = {
   races: [],
