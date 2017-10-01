@@ -28,10 +28,12 @@ const Navigator = StackNavigator({
   Race: { screen: RaceDetails, navigationOptions }
 });
 
-export default (render = () => {
+const App = () => {
   return (
     <Provider store={store}>
       <Navigator />
     </Provider>
   );
-});
+};
+
+export default App;

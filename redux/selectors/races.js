@@ -1,3 +1,4 @@
 const getRaces = ({ races }) => races.races;
+const getIsLoading = ({ races }) => races.loading;
 
-export { getRaces };
+export { getIsLoading, getRaces };

@@ -1,10 +1,9 @@
 import expand from '../expand';
-import raceList from '../../components/raceList';
-import client from '../../utils/apiClient';
 
 const initialState = {
   races: [],
-  loadedAt: false
+  loadedAt: false,
+  loading: false
 };
 
 const { LOAD, LOAD_SUCCESS, LOAD_FAIL } = expand('races');
