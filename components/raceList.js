@@ -1,17 +1,12 @@
 // @flow
-
 import React from 'react';
-import { connect } from 'react-redux';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
-import * as actions from '../redux/modules/races';
+import connect from '../redux/connect';
+import { load } from '../redux/modules/races';
+import { getRaces } from '../redux/selectors/races';
 
-@connect(
-  ({ races }) => ({ races: races.races }),
-  dispatch => ({
-    load: actions.load(dispatch)
-  })
-)
+@connect({ races: getRaces }, { load })
 class RaceList extends React.Component {
   state = {
     refreshing: false

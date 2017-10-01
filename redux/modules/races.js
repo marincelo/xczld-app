@@ -1,5 +1,6 @@
 import expand from '../expand';
 import raceList from '../../components/raceList';
+import client from '../../utils/apiClient';
 import noop from '../../utils/noop';
 
 const initialState = {
@@ -35,25 +36,11 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-const request = () => ({
-  type: LOAD
+const doLoad = () => ({
+  types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+  promise: client => client.get('races.json')
 });
 
-const receive = result => ({
-  type: LOAD_SUCCESS,
-  result
-});
-
-const fail = error => ({
-  type: LOAD_FAIL,
-  error
-});
-
-export const load = dispatch => () => {
-  dispatch(request());
-
-  return fetch('http://xczld.herokuapp.com/races.json')
-    .then(response => response.json())
-    .then(json => dispatch(receive(json)))
-    .catch(err => dispatch(fail(err)));
-};
+export function load(dispatch) {
+  return () => dispatch(doLoad());
+}
