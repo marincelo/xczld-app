@@ -1,58 +1,37 @@
 // @flow
 
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { Header, List, ListItem, Text } from 'react-native-elements';
 import { Provider } from 'react-redux';
+import { StackNavigator } from 'react-navigation';
+import { Header, Text } from 'react-native-elements';
+
 import store from './redux/store';
 import RaceList from './components/raceList';
 import RaceDetails from './components/raceDetails';
-import RacerTracker from './components/racerTracker';
 
-class Home extends React.Component {
-  state = {
-    raceId: undefined
-  };
+const navigationOptions = {
+  header: () => (
+    <Header
+      centerComponent={
+        <Text h2 style={{ color: '#fff' }}>
+          {' '}
+          XCZLD{' '}
+        </Text>
+      }
+      backgroundColor="#009688"
+    />
+  )
+};
 
-  render() {
-    return (
-      <View>
-        <View>
-          <Header
-            centerComponent={{ text: 'XCZLD', style: { color: '#fff' } }}
-            backgroundColor="#009688"
-          />
-          {this.state.raceId ? (
-            undefined
-          ) : (
-            <RaceList setRace={raceId => this.setState({ raceId })} />
-          )}
-          {this.state.raceId ? (
-            <RaceDetails raceId={this.state.raceId} />
-          ) : (
-            undefined
-          )}
-        </View>
-        <RacerTracker />
-      </View>
-    );
-  }
-}
+const Navigator = StackNavigator({
+  Home: { screen: RaceList, navigationOptions },
+  Race: { screen: RaceDetails, navigationOptions }
+});
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Home />
-      </Provider>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    marginTop: 75
-  }
+export default (render = () => {
+  return (
+    <Provider store={store}>
+      <Navigator />
+    </Provider>
+  );
 });

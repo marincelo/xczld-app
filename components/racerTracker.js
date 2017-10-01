@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { MapView } from 'expo';
 
 export default class RacerTracker extends React.Component {
@@ -16,29 +16,30 @@ export default class RacerTracker extends React.Component {
             console.log(error);
           },
           {
-            timeout: 1000,
+            timeout: 1000, // milliseconds
             enableHighAccuracy: true,
-            distanceFilter: 2 // metra
+            distanceFilter: 2 // meters
           }
-        )
+        );
     }
 
     render() {
+        const { coords } = this.state.position;
         return (<View>
           {
-            this.state.position.coords ?
+            coords ?
             (
               <View>
               <Text> Map </Text>
               <MapView
               style={ style }
               region={{
-                latitude: this.state.position.coords && this.state.position.coords.latitude,
-                longitude: this.state.position.coords && this.state.position.coords.longitude,
+                latitude: coords && coords.latitude,
+                longitude: coords && coords.longitude,
                 latitudeDelta: 0.01, longitudeDelta: 0.01}}>
 
                 <MapView.Marker
-                  coordinate={this.state.position.coords}
+                  coordinate={coords}
                   image={require('../mtb.png')}
                   title="Marin"
                   description="Je tu negdi"
@@ -49,14 +50,14 @@ export default class RacerTracker extends React.Component {
               :
               <Text> No map </Text>
           }
-        </View>)
+        </View>);
     }
 }
 
 const style = {
     position: 'absolute',
     top: 0,
-    left: -150,
+    left: 0,
     right: 0,
     bottom: 0,
     width: 300,
