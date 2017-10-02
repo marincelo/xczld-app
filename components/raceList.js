@@ -2,9 +2,11 @@
 import React, { PureComponent } from 'react';
 import { FlatList, View } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
+import type { NavigationNavigatorProps } from 'react-navigation';
 import connect from '../redux/connect';
 import * as actions from '../redux/modules/races';
 import { getIsLoading, getRaces } from '../redux/selectors/races';
+import noop from '../utils/noop';
 
 type Race = {
   id: number,
@@ -17,6 +19,19 @@ type Info = {
   item: Race
 };
 
+type Props = {
+  load: () => mixed,
+  races: Race[],
+  isLoading: boolean,
+  navigation: NavigationNavigatorProps
+};
+
+type DefaultProps = {
+  load: () => void,
+  races: [],
+  isLoading: boolean
+};
+
 @connect(
   {
     races: getRaces,
@@ -24,7 +39,13 @@ type Info = {
   },
   { load: actions.load }
 )
-class RaceList extends PureComponent {
+class RaceList extends PureComponent<DefaultProps, Props, void> {
+  static defaultProps = {
+    races: [],
+    isLoading: false,
+    load: noop
+  };
+
   componentDidMount() {
     this.props.load();
   }
