@@ -1,0 +1,9 @@
+engines:
+  eslint:
+    enabled: true
+
+  duplication:
+    enabled: true
+    exclude_paths:
+    - "redux/modules"
+    - "redux/selectors"
