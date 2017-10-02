@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
 import races from './races';
 
-export default (reducer = combineReducers({ races }));
+const reducer = combineReducers({ races }));
+
+export default reducer;
