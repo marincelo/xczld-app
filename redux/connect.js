@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import store from './store';
 
 const flattenObjects = (prev, curr) => ({ ...prev, ...curr });
 
@@ -14,7 +15,7 @@ export default function(selectors, actions) {
   // If component doesn't use state,
   // it doesn't need to know about redux
   if (!selectors) {
-    const boundActions = bindActionCreators(actionsToMap, store.dispatch);
+    const boundActions = bindActionCreators(actions, store.dispatch);
 
     return component => props =>
       React.createElement(component, {
