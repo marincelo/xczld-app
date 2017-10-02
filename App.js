@@ -1,20 +1,39 @@
+// @flow
+
 import React from 'react';
+import { Provider } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import { Header, Text } from 'react-native-elements';
 
+import store from './redux/store';
 import RaceList from './components/raceList';
 import RaceDetails from './components/raceDetails';
 
 const navigationOptions = {
-  header: () => (<Header
-    centerComponent={<Text h2 style={{ color: '#fff' }}> XCZLD </Text>}
-    backgroundColor="#009688"/>)
+  header: () => (
+    <Header
+      centerComponent={
+        <Text h2 style={{ color: '#fff' }}>
+          {' '}
+          XCZLD{' '}
+        </Text>
+      }
+      backgroundColor="#009688"
+    />
+  )
 };
 
-const App = StackNavigator({
-    Home: { screen: RaceList, navigationOptions },
-    Race: { screen: RaceDetails, navigationOptions }
-  }
-);
+const Navigator = StackNavigator({
+  Home: { screen: RaceList, navigationOptions },
+  Race: { screen: RaceDetails, navigationOptions }
+});
 
-module.exports = App;
+const App = () => {
+  return (
+    <Provider store={store}>
+      <Navigator />
+    </Provider>
+  );
+};
+
+export default App;
