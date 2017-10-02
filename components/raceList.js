@@ -6,6 +6,17 @@ import connect from '../redux/connect';
 import * as actions from '../redux/modules/races';
 import { getIsLoading, getRaces } from '../redux/selectors/races';
 
+type Race = {
+  id: number,
+  name: string,
+  date: Date,
+  ended_at: Date
+};
+
+type Info = {
+  item: Race
+};
+
 @connect(
   {
     races: getRaces,
@@ -18,7 +29,7 @@ class RaceList extends PureComponent {
     this.props.load();
   }
 
-  renderItem = ({ item }) => (
+  renderItem = ({ item }: Info) => (
     <ListItem
       title={`${item.name}`}
       subtitle={new Date(item.date).toLocaleString()}
