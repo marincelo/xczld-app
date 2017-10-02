@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Header, Text } from 'react-native-elements';
 
 import store from './redux/store';
@@ -15,8 +15,7 @@ const navigationOptions = {
     <Header
       centerComponent={
         <Text h2 style={{ color: '#fff' }}>
-          {' '}
-          XCZLD{' '}
+          XCZLD
         </Text>
       }
       backgroundColor="#009688"
@@ -24,10 +23,40 @@ const navigationOptions = {
   )
 };
 
+const HomeScreen = TabNavigator({
+  Utrke: {
+    screen: RaceList,
+  },
+  Klubovi: {
+    screen: ClubList,
+  }
+},
+{
+  tabBarPosition: 'top',
+  lazy: true,
+  animationEnabled: true,
+  tabBarOptions: {
+    activeTintColor: '#fff',
+    inactiveTintColor: '#555',
+    style: {
+      backgroundColor: '#009688',
+      height: 40,
+      marginTop: 65
+    },
+    labelStyle: {
+      color: '#fff'
+    },
+    indicatorStyle: {
+      backgroundColor: '#ff5252'
+    }
+  }
+});
+
 const Navigator = StackNavigator({
-  Home: { screen: ClubList, navigationOptions },
+  Home: { screen: HomeScreen, navigationOptions },
   Race: { screen: RaceDetails, navigationOptions }
 });
+
 
 const App = () => {
   return (

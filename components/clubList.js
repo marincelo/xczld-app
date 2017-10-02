@@ -58,6 +58,5 @@ class ClubList extends PureComponent {
 export default ClubList;
 
 const style = {
-  height: '80%',
-  marginTop: 70
+  height: '100%'
 };
