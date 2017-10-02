@@ -34,11 +34,12 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-const doLoad = () => ({
+const isLoaded = state => state.races && state.races.loaded;
+
+export const load = () => ({
   types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
   promise: client => client.get('races.json')
 });
 
-export function load(dispatch) {
-  return () => dispatch(doLoad());
-}
+export const initialLoad = () => (dispatch, getState) =>
+  !isLoaded(getState()) && dispatch(load());

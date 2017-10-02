@@ -21,13 +21,13 @@ type Info = {
 
 type Props = {
   load: () => mixed,
+  initialLoad: () => mixed,
   races: Race[],
   isLoading: boolean,
   navigation: NavigationNavigatorProps
 };
 
 type DefaultProps = {
-  load: () => void,
   races: [],
   isLoading: boolean
 };
@@ -37,17 +37,19 @@ type DefaultProps = {
     races: getRaces,
     isLoading: getIsLoading
   },
-  { load: actions.load }
+  {
+    load: actions.load,
+    initialLoad: actions.initialLoad
+  }
 )
 class RaceList extends PureComponent<DefaultProps, Props, void> {
   static defaultProps = {
     races: [],
-    isLoading: false,
-    load: noop
+    isLoading: false
   };
 
   componentDidMount() {
-    this.props.load();
+    this.props.initialLoad();
   }
 
   renderItem = ({ item }: Info) => (

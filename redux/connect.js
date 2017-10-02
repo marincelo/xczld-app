@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 const flattenObjects = (prev, curr) => ({ ...prev, ...curr });
 
@@ -10,8 +11,20 @@ const apply = functions => arg =>
     .reduce(flattenObjects);
 
 export default function(selectors, actions) {
-  const mapStateToProps = selectors && apply(selectors);
-  const mapDispatchToProps = actions && apply(actions);
+  // If component doesn't use state,
+  // it doesn't need to know about redux
+  if (!selectors) {
+    const boundActions = bindActionCreators(actionsToMap, store.dispatch);
 
-  return component => connect(mapStateToProps, mapDispatchToProps)(component);
+    return component => props =>
+      React.createElement(component, {
+        dispatch: store.dispatch,
+        ...props,
+        ...boundActions
+      });
+  }
+
+  const mapStateToProps = apply(selectors);
+
+  return component => connect(mapStateToProps, actions)(component);
 }
