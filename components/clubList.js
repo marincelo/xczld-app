@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList, View } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
+import type { NavigationNavigatorProps } from 'react-navigation';
 import connect from '../redux/connect';
 import * as actions from '../redux/modules/clubs';
 import { getIsLoading, getClubs } from '../redux/selectors/clubs';
@@ -16,6 +17,20 @@ type Club = {
 type Info = {
   item: Club
 };
+
+type Props = {
+  load: () => mixed,
+  initialLoad: () => mixed,
+  clubs: Club[],
+  isLoading: boolean,
+  navigation: NavigationNavigatorProps
+};
+
+type DefaultProps = {
+  clubs: [],
+  isLoading: boolean
+};
+
 @connect(
   {
     clubs: getClubs,
@@ -26,7 +41,7 @@ type Info = {
     initialLoad: actions.initialLoad
   }
 )
-class ClubList extends PureComponent {
+class ClubList extends PureComponent<DefaultProps, Props, void> {
   static defaultProps = {
     clubs: [],
     isLoading: false,
