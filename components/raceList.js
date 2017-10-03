@@ -84,6 +84,5 @@ class RaceList extends PureComponent<DefaultProps, Props, void> {
 export default RaceList;
 
 const style = {
-  height: '80%',
-  marginTop: 70
+  height: '100%'
 };
