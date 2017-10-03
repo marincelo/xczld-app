@@ -1,13 +1,11 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import client from '../utils/apiClient';
+import rootReducer from './modules/root';
 import apiMiddleware from './middlewares/apiMiddleware';
-import races from './modules/races';
-import clubs from './modules/clubs';
+import client from '../utils/apiClient';
 
-const reducer = combineReducers({ races, clubs });
 const store = createStore(
-  reducer,
+  rootReducer,
   applyMiddleware(thunk, apiMiddleware(client))
 );
 

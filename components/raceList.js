@@ -6,13 +6,12 @@ import type { NavigationNavigatorProps } from 'react-navigation';
 import connect from '../redux/connect';
 import * as actions from '../redux/modules/races';
 import { getIsLoading, getRaces } from '../redux/selectors/races';
-import noop from '../utils/noop';
 
 type Race = {
   id: number,
   name: string,
-  date: Date,
-  ended_at: Date
+  date: string,
+  ended_at: string
 };
 
 type Info = {
@@ -21,13 +20,13 @@ type Info = {
 
 type Props = {
   load: () => mixed,
+  initialLoad: () => mixed,
   races: Race[],
   isLoading: boolean,
   navigation: NavigationNavigatorProps
 };
 
 type DefaultProps = {
-  load: () => void,
   races: [],
   isLoading: boolean
 };
@@ -37,17 +36,19 @@ type DefaultProps = {
     races: getRaces,
     isLoading: getIsLoading
   },
-  { load: actions.load }
+  {
+    load: actions.load,
+    initialLoad: actions.initialLoad
+  }
 )
 class RaceList extends PureComponent<DefaultProps, Props, void> {
   static defaultProps = {
     races: [],
-    isLoading: false,
-    load: noop
+    isLoading: false
   };
 
   componentDidMount() {
-    this.props.load();
+    this.props.initialLoad();
   }
 
   renderItem = ({ item }: Info) => (

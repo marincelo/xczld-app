@@ -1,4 +1,5 @@
 import expand from '../expand';
+import { dataRetentionThreshold } from '../../config';
 
 const initialState = {
   races: [],
@@ -34,11 +35,13 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-const doLoad = () => ({
+const isLoaded = ({ races }) =>
+  races && races.loaded && Date.now() - races.loaded > dataRetentionThreshold;
+
+export const load = () => ({
   types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
   promise: client => client.get('races.json')
 });
 
-export function load(dispatch) {
-  return () => dispatch(doLoad());
-}
+export const initialLoad = () => (dispatch, getState) =>
+  !isLoaded(getState()) && dispatch(load());
