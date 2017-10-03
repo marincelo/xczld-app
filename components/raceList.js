@@ -6,13 +6,12 @@ import type { NavigationNavigatorProps } from 'react-navigation';
 import connect from '../redux/connect';
 import * as actions from '../redux/modules/races';
 import { getIsLoading, getRaces } from '../redux/selectors/races';
-import noop from '../utils/noop';
 
 type Race = {
   id: number,
   name: string,
-  date: Date,
-  ended_at: Date
+  date: string,
+  ended_at: string
 };
 
 type Info = {

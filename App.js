@@ -6,6 +6,7 @@ import { StackNavigator } from 'react-navigation';
 import { Header, Text } from 'react-native-elements';
 
 import store from './redux/store';
+import ClubList from './components/clubList';
 import RaceList from './components/raceList';
 import RaceDetails from './components/raceDetails';
 
@@ -24,7 +25,7 @@ const navigationOptions = {
 };
 
 const Navigator = StackNavigator({
-  Home: { screen: RaceList, navigationOptions },
+  Home: { screen: ClubList, navigationOptions },
   Race: { screen: RaceDetails, navigationOptions }
 });
 
