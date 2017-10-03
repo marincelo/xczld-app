@@ -7,13 +7,24 @@ import * as actions from '../redux/modules/clubs';
 import { getIsLoading, getClubs } from '../redux/selectors/clubs';
 import noop from '../utils/noop';
 
+type Club = {
+  name: string,
+  points: number,
+  racers_count: number
+};
 
+type Info = {
+  item: Club
+};
 @connect(
   {
     clubs: getClubs,
     isLoading: getIsLoading
   },
-  { load: actions.load }
+  {
+    load: actions.load,
+    initialLoad: actions.initialLoad
+  }
 )
 class ClubList extends PureComponent {
   static defaultProps = {
@@ -23,10 +34,10 @@ class ClubList extends PureComponent {
   };
 
   componentDidMount() {
-    this.props.load();
+    this.props.initialLoad();
   }
 
-  renderItem = ({ item }) => (
+  renderItem = ({ item }: Info) => (
     <ListItem
       title={`${item.name}`}
       rightTitle={`${item.points} Bodova`}
