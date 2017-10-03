@@ -1,4 +1,5 @@
 import expand from '../expand';
+import { dataRetentionThreshold } from '../../config';
 
 const initialState = {
   races: [],
@@ -34,7 +35,8 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-const isLoaded = state => state.races && state.races.loaded;
+const isLoaded = ({ races }) =>
+  races && races.loaded && Date.now() - races.loaded > dataRetentionThreshold;
 
 export const load = () => ({
   types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],

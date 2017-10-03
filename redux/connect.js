@@ -28,5 +28,5 @@ export default function(selectors, actions) {
 
   const mapStateToProps = apply(selectors);
 
-  return component => connect(mapStateToProps, actions)(component);
+  return connect(mapStateToProps, actions);
 }
