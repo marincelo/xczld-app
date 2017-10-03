@@ -30,7 +30,7 @@ class ClubList extends PureComponent {
     <ListItem
       title={`${item.name}`}
       rightTitle={`${item.points} Bodova`}
-      rightTitleStyle={{ color: '#ff5252' }}
+      rightTitleStyle={styles.rightTitle}
       subtitle={`Broj članova: ${item.racers_count}`}
     />
   );
@@ -40,12 +40,12 @@ class ClubList extends PureComponent {
 
     return (
       <View>
-        <List {...{ style }}>
+        <List style={styles.list}>
           <FlatList
             keyExtractor={({ id }) => id}
             renderItem={this.renderItem}
             data={clubs}
-            ListEmptyComponent={<Text> Ucitavam klubove </Text>}
+            ListEmptyComponent={<Text> Nema podataka </Text>}
             onRefresh={load}
             refreshing={!!isLoading}
           />
@@ -57,6 +57,11 @@ class ClubList extends PureComponent {
 
 export default ClubList;
 
-const style = {
-  height: '100%'
+const styles = {
+  list: {
+    height: '100%'
+  },
+  rightTitle: {
+    color: '#ff5252'
+  }
 };
