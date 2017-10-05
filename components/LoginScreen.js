@@ -1,14 +1,58 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import { Text, FormLabel, FormInput, Button } from 'react-native-elements';
 
 class LoginScreen extends React.PureComponent {
+  state = {
+    emailInput: '',
+    phoneNumberInput: '',
+    errorMessage: ''
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('@xczld:emailInput')
+    .then(value => this.setState({emailInput: value}))
+    AsyncStorage.getItem('@xczld:phoneNumberInput')
+    .then(value => this.setState({phoneNumberInput: value}))
+  }
+
   loginUser = () => {
-    console.log('pressss');
-    console.log(this.emailInput, this.phoneNumberInput)
+    const { emailInput, phoneNumberInput } = this.state;
+
+    if (emailInput && phoneNumberInput) {
+      const form = new FormData();
+
+      form.append('racer[email]', emailInput);
+      form.append('racer[phone_number]', phoneNumberInput);
+
+      const options = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json'
+        },
+        body: form
+      };
+
+      fetch('http://xczld.herokuapp.com/racers/login', options)
+      .then(response => response.json())
+      .then(json => AsyncStorage
+        .setItem('@xczld:emailInput', json.email)
+        .then( () => AsyncStorage.setItem('@xczld:phoneNumberInput', json.phone_number))
+        .then(() => {
+          if (json.email && json.phone_number) {
+            this.props.navigation.navigate('Home');
+          }
+        })
+      )
+      .catch(error => this.setState({errorMessage: error}));
+    }
+    else {
+      this.setState({errorMessage: 'Unesi email i broj mobitela i pokusaj ponovno.'})
+    }
   };
 
   render() {
+    const {emailInput, phoneNumberInput, errorMessage} = this.state;
     return (
       <View style={styles.container}>
         <Text h2 style={styles.text}> Prijava </Text>
@@ -16,30 +60,33 @@ class LoginScreen extends React.PureComponent {
         <FormLabel style={styles.label}>Email</FormLabel>
         <FormInput
           inputStyle={styles.input}
-          ref={ emailInput => this.emailInput = emailInput }
+          onChangeText={ text => this.setState({emailInput: text}) }
+          value={emailInput}
         />
 
         <FormLabel style={styles.label}>Broj mobitela</FormLabel>
         <FormInput
           inputStyle={ styles.input }
-          ref={ phoneNumberInput => this.phoneNumberInput = phoneNumberInput }
+          onChangeText={ text => this.setState({phoneNumberInput: text}) }
+          value={phoneNumberInput}
         />
 
+        <Text h4 style={styles.errorMessage}> {errorMessage} </Text>
+
         <Button
-          title='PRIJAVI SE'
+          title="PRIJAVI SE"
           buttonStyle={styles.button}
           raised
           large
           onPress={ this.loginUser }
         />
       </View>
-    )
+    );
   }
 }
 
 export default LoginScreen;
 
-const primaryColor = '#009688';
 const secondaryColor = '#ff5252';
 
 const styles = {
@@ -57,6 +104,10 @@ const styles = {
   input: {
     borderBottomColor: secondaryColor,
     marginBottom: 40
+  },
+  errorMessage: {
+    color: secondaryColor,
+    textAlign: 'center'
   },
   button: {
     backgroundColor: secondaryColor

@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 import { Provider } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
@@ -32,7 +31,7 @@ const navigationOptions = ({navigation}) => {
 
   return {
     header
-  }
+  };
 };
 
 const Navigator = StackNavigator({
