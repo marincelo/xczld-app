@@ -9,11 +9,11 @@ class LoginScreen extends React.PureComponent {
     errorMessage: ''
   }
 
-  componentDidMount() {
-    AsyncStorage.getItem('@xczld:emailInput')
-    .then(value => this.setState({emailInput: value}))
-    AsyncStorage.getItem('@xczld:phoneNumberInput')
-    .then(value => this.setState({phoneNumberInput: value}))
+  async componentWillMount() {
+    const emailInput = await AsyncStorage.getItem('@xczld:emailInput');
+    const phoneNumberInput = await AsyncStorage.getItem('@xczld:phoneNumberInput');
+
+    this.setState({emailInput, phoneNumberInput});
   }
 
   loginUser = () => {
@@ -33,8 +33,10 @@ class LoginScreen extends React.PureComponent {
         body: form
       };
 
-      fetch('http://xczld.herokuapp.com/racers/login', options)
-      .then(response => response.json())
+      fetch('http://10.14.253.138:3000/racers/login', options)
+      .then(response => {
+        return response.json();
+      })
       .then(json => AsyncStorage
         .setItem('@xczld:emailInput', json.email)
         .then( () => AsyncStorage.setItem('@xczld:phoneNumberInput', json.phone_number))
@@ -53,6 +55,7 @@ class LoginScreen extends React.PureComponent {
 
   render() {
     const {emailInput, phoneNumberInput, errorMessage} = this.state;
+
     return (
       <View style={styles.container}>
         <Text h2 style={styles.text}> Prijava </Text>
