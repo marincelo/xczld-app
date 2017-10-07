@@ -1,3 +1,4 @@
+import { serverUrl } from '../constants';
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
@@ -14,7 +15,7 @@ export default class ClubDetails extends React.Component {
   loadClub = () => {
     const { params } = this.props.navigation.state;
 
-    fetch(`http://xczld.herokuapp.com/clubs/${params.clubId}.json`)
+    fetch(`${serverUrl}/clubs/${params.clubId}.json`)
     .then(response => response.json())
     .then(json => this.setState({club: json}))
     .catch(error => console.log(error));

@@ -1,3 +1,4 @@
+import { primaryColor, secondaryColor } from '../constants';
 import { TabNavigator } from 'react-navigation';
 
 import ClubList from './clubList';
@@ -8,11 +9,11 @@ const HomeScreen = TabNavigator({
   Utrke: {
     screen: RaceList,
   },
-  Klubovi: {
-    screen: ClubList,
-  },
   Natjecatelji: {
     screen: RacerList,
+  },
+  Klubovi: {
+    screen: ClubList,
   }
 },
 {
@@ -23,7 +24,7 @@ const HomeScreen = TabNavigator({
     activeTintColor: '#fff',
     inactiveTintColor: '#555',
     style: {
-      backgroundColor: '#009688',
+      backgroundColor: primaryColor,
       height: 40,
       marginTop: 65
     },
@@ -31,7 +32,7 @@ const HomeScreen = TabNavigator({
       color: '#fff'
     },
     indicatorStyle: {
-      backgroundColor: '#ff5252'
+      backgroundColor: secondaryColor
     }
   }
 });

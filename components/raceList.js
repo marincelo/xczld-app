@@ -1,8 +1,9 @@
-import React, { PureComponent } from 'react';
+import { serverUrl } from '../constants';
+import React from 'react';
 import { FlatList, View } from 'react-native';
-import { List, ListItem, Text } from 'react-native-elements';
+import { List, ListItem } from 'react-native-elements';
 
-export default class RaceList extends PureComponent {
+export default class RaceList extends React.PureComponent {
   state = {
     races: [],
     refreshing: false
@@ -15,11 +16,9 @@ export default class RaceList extends PureComponent {
   loadRaces = () => {
       this.setState({refreshing: true});
 
-      fetch('http://xczld.herokuapp.com/races.json')
+      fetch(`${serverUrl}/races.json`)
       .then(response => response.json())
-      .then(json => {
-          this.setState({races: json, refreshing: false});
-      })
+      .then(json => this.setState({races: json, refreshing: false}))
       .catch(error => console.log(error));
   }
 

@@ -1,3 +1,4 @@
+import { serverUrl, categories, secondaryColor } from '../constants';
 import React from 'react';
 import { View, SectionList } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
@@ -8,8 +9,6 @@ export default class RaceList extends React.Component {
         refreshing: false
     };
 
-    categories = ['zene', 'u16', '16-20', '20-30', '30-40', '40-50', '50+'];
-
     componentDidMount() {
         this.loadRace();
     }
@@ -19,7 +18,7 @@ export default class RaceList extends React.Component {
         const sections = [];
 
         if (race_results) {
-            this.categories.forEach(category => {
+            categories.forEach(category => {
                 sections.push({
                     title: category.toUpperCase(),
                     data: race_results.filter(({racer}) => racer.category === category)
@@ -34,7 +33,7 @@ export default class RaceList extends React.Component {
 
         this.setState({refreshing: true});
 
-        fetch(`http://xczld.herokuapp.com/races/${params.raceId}.json`)
+        fetch(`${serverUrl}/races/${params.raceId}.json`)
         .then(response => response.json())
         .then(json => {
             this.setState({race: json, refreshing: false});
@@ -77,7 +76,7 @@ export default class RaceList extends React.Component {
             </Text>
             <Text h4 style={{ marginTop: 10, marginLeft: 20 }}>
                 Natjecatelji
-                <Text style={{ color: '#ff5252' }}> {race.race_results && race.race_results.length}</Text>
+                <Text style={{ color: secondaryColor }}> {race.race_results && race.race_results.length}</Text>
             </Text>
             <List>
                 <SectionList
@@ -102,7 +101,7 @@ const styles = {
     leftIcon: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#ff5252',
+        color: secondaryColor,
         paddingTop: 8,
         paddingRight: 10
     }

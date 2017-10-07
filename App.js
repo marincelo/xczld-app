@@ -1,4 +1,4 @@
-// @flow
+import { primaryColor } from './constants';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import { Header, Text, Icon } from 'react-native-elements';
@@ -24,7 +24,7 @@ const navigationOptions = ({navigation}) => {
           onPress={ () => navigation.navigate('Login') }
         />
       }
-      backgroundColor="#009688"
+      backgroundColor={primaryColor}
     />
   );
 

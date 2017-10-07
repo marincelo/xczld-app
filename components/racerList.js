@@ -1,3 +1,4 @@
+import { serverUrl, secondaryColor } from '../constants';
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
@@ -15,7 +16,7 @@ export default class RacerList extends React.Component {
   loadRacers = () => {
     this.setState({refreshing: true});
 
-    fetch('http://xczld.herokuapp.com/racers.json')
+    fetch(`${serverUrl}/racers.json`)
     .then(response => response.json())
     .then(json => this.setState({racers: json, refreshing: false}))
     .catch(error => console.log(error));
@@ -23,8 +24,10 @@ export default class RacerList extends React.Component {
 
   renderItem = ({ item }) => (
     <ListItem
+      leftIcon={<Text style={styles.leftIcon}>{item.start_number.value}</Text>}
       title={`${item.first_name} ${item.last_name}`}
-      rightTitle={`${item.start_number.value}`}
+      rightTitle={`${item.total_points} bodova`}
+      subtitle={`Kategorija ${item.category.toUpperCase()}`}
       onPress={() =>
         this.props.navigation.navigate('Racer', { racerId: item.id })}
     />
@@ -35,7 +38,7 @@ export default class RacerList extends React.Component {
 
     return (
       <View>
-        <List {...{ style }}>
+        <List style={styles.list}>
           <FlatList
             keyExtractor={({ id }) => id}
             renderItem={this.renderItem}
@@ -50,6 +53,15 @@ export default class RacerList extends React.Component {
   }
 }
 
-const style = {
-  height: '100%'
+const styles = {
+  list: {
+    height: '100%'
+  },
+  leftIcon: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: secondaryColor,
+      paddingTop: 8,
+      paddingRight: 10
+  }
 };

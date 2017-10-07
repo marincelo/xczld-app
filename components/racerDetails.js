@@ -1,3 +1,4 @@
+import { serverUrl } from '../constants';
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
@@ -14,7 +15,7 @@ export default class RacerDetails extends React.Component {
   loadRacer = () => {
     const { params } = this.props.navigation.state;
 
-    fetch(`http://xczld.herokuapp.com/racers/${params.racerId}.json`)
+    fetch(`${serverUrl}/racers/${params.racerId}.json`)
     .then(response => response.json())
     .then(json => this.setState({racer: json}))
     .catch(error => console.log(error));
@@ -36,11 +37,9 @@ export default class RacerDetails extends React.Component {
     const {racer} = this.state;
 
     return (<View style={styles.container}>
-      <Text h2 style={styles.header}>
-        {`${racer.start_number && racer.start_number.value} - ${racer.first_name} ${racer.last_name}`}
-      </Text>
+      <Text h2 style={styles.header}>{`${racer.start_number && racer.start_number.value} - ${racer.first_name} ${racer.last_name}`}</Text>
       <Text h4 style={styles.header}> { racer.club && racer.club.name } </Text>
-      <Text h4 style={styles.header}> Kategorija { racer.category } </Text>
+      <Text h4 style={styles.header}> Kategorija { racer.category && racer.category.toUpperCase() } </Text>
 
       <List>
         <FlatList

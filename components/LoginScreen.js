@@ -1,3 +1,4 @@
+import { serverUrl, secondaryColor } from '../constants';
 import React from 'react';
 import { View, AsyncStorage } from 'react-native';
 import { Text, FormLabel, FormInput, Button } from 'react-native-elements';
@@ -33,7 +34,7 @@ class LoginScreen extends React.PureComponent {
         body: form
       };
 
-      fetch('http://xczld.herokuapp.com/racers/login', options)
+      fetch(`${serverUrl}/racers/login`, options)
       .then(response => response.json())
       .then(json => AsyncStorage
         .setItem('@xczld:user', json)
@@ -86,8 +87,6 @@ class LoginScreen extends React.PureComponent {
 }
 
 export default LoginScreen;
-
-const secondaryColor = '#ff5252';
 
 const styles = {
   container: {

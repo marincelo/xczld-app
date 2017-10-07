@@ -1,9 +1,10 @@
-import React, { PureComponent } from 'react';
+import { serverUrl, secondaryColor } from '../constants';
+import React from 'react';
 import { FlatList, View } from 'react-native';
-import { List, ListItem, Text } from 'react-native-elements';
+import { List, ListItem } from 'react-native-elements';
 
 
-export default class ClubList extends PureComponent {
+export default class ClubList extends React.PureComponent {
   state = {
     clubs: [],
     refreshing: false
@@ -16,7 +17,7 @@ export default class ClubList extends PureComponent {
   loadClubs = () => {
       this.setState({refreshing: true});
 
-      fetch('http://xczld.herokuapp.com/clubs.json')
+      fetch(`${serverUrl}/clubs.json`)
       .then(response => response.json())
       .then(json => this.setState({clubs: json, refreshing: false}))
       .catch(error => console.log(error));
@@ -58,6 +59,6 @@ const styles = {
     height: '100%'
   },
   rightTitle: {
-    color: '#ff5252'
+    color: secondaryColor
   }
 };
