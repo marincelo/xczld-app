@@ -2,7 +2,7 @@ import { serverUrl, categories, primaryColor, secondaryColor } from '../constant
 import { loadResource } from '../fetchHelper';
 import React from 'react';
 import { View, SectionList, AsyncStorage, ToastAndroid } from 'react-native';
-import { List, ListItem, Text, Button } from 'react-native-elements';
+import { ListItem, Text, Button } from 'react-native-elements';
 
 export default class RaceList extends React.Component {
   state = {
