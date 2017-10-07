@@ -11,10 +11,12 @@ class LoginScreen extends React.PureComponent {
   }
 
   async componentWillMount() {
-    const user = await AsyncStorage.getItem('@xczld:user');
-    const {email, phone_number} = user;
-
-    this.setState({emailInput: email, phoneNumberInput: phone_number});
+    const user_data = await AsyncStorage.getItem('@xczld:user');
+    if (user_data) {
+      const user = JSON.parse(user_data);
+      const {email, phone_number} = user;
+      this.setState({emailInput: email, phoneNumberInput: phone_number});
+    }
   }
 
   loginUser = () => {
@@ -37,14 +39,14 @@ class LoginScreen extends React.PureComponent {
       fetch(`${serverUrl}/racers/login`, options)
       .then(response => response.json())
       .then(json => AsyncStorage
-        .setItem('@xczld:user', json)
+        .setItem('@xczld:user', JSON.stringify(json))
         .then(() => {
           if (json.email && json.phone_number) {
             this.props.navigation.navigate('Home');
           }
         })
       )
-      .catch(error => this.setState({errorMessage: error}));
+      .catch(error => this.setState({errorMessage: error.message}));
     }
     else {
       this.setState({errorMessage: 'Unesi email i broj mobitela i pokusaj ponovno.'});

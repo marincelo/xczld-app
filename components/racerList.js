@@ -14,7 +14,7 @@ export default class RacerList extends React.Component {
     this.loadRacers();
   }
 
-  loadRacers = load('racers');
+  loadRacers = load('racers').bind(this);
 
   renderItem = ({ item }) => (
     <ListItem

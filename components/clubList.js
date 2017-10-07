@@ -15,7 +15,7 @@ export default class ClubList extends React.PureComponent {
     this.loadClubs();
   }
 
-  loadClubs = load('clubs');
+  loadClubs = load('clubs').bind(this);
 
   renderItem = ({ item }) => (
     <ListItem
@@ -33,25 +33,20 @@ export default class ClubList extends React.PureComponent {
 
     return (
       <View>
-        <List style={styles.list}>
-          <FlatList
-            keyExtractor={({ id }) => id}
-            renderItem={this.renderItem}
-            data={clubs}
-            ListEmptyComponent={<ListItem title="Ucitavam klubove" hideChevron={true} />}
-            onRefresh={this.loadClubs}
-            refreshing={refreshing}
-          />
-        </List>
+        <FlatList
+          keyExtractor={({ id }) => id}
+          renderItem={this.renderItem}
+          data={clubs}
+          ListEmptyComponent={<ListItem title="Ucitavam klubove" hideChevron={true} />}
+          onRefresh={this.loadClubs}
+          refreshing={refreshing}
+        />
       </View>
     );
   }
 }
 
 const styles = {
-  list: {
-    height: '100%'
-  },
   rightTitle: {
     color: secondaryColor
   }

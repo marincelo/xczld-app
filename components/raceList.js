@@ -13,7 +13,7 @@ export default class RaceList extends React.PureComponent {
       this.loadRaces();
   }
 
-  loadRaces = load('races');
+  loadRaces = load('races').bind(this);
 
   renderItem = ({ item }) => (
     <ListItem
@@ -30,21 +30,15 @@ export default class RaceList extends React.PureComponent {
 
     return (
       <View>
-        <List {...{ style }}>
-          <FlatList
-            keyExtractor={({ id }) => id}
-            renderItem={this.renderItem}
-            data={races}
-            ListEmptyComponent={<ListItem title="Ucitavam utrke" hideChevron={true}/>}
-            onRefresh={this.loadRaces}
-            refreshing={refreshing}
-          />
-        </List>
+        <FlatList
+          keyExtractor={({ id }) => id}
+          renderItem={this.renderItem}
+          data={races}
+          ListEmptyComponent={<ListItem title="Ucitavam utrke" hideChevron={true}/>}
+          onRefresh={this.loadRaces}
+          refreshing={refreshing}
+        />
       </View>
     );
   }
 }
-
-const style = {
-  height: '100%'
-};
