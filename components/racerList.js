@@ -40,7 +40,7 @@ export default class RacerList extends React.Component {
             keyExtractor={({ id }) => id}
             renderItem={this.renderItem}
             data={racers}
-            ListEmptyComponent={<Text> Ucitavam natjecatelje </Text>}
+            ListEmptyComponent={<ListItem title="Ucitavam natjecatelje" hideChevron={true} />}
             onRefresh={this.loadRacers}
             refreshing={refreshing}
           />

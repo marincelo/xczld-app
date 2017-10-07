@@ -28,6 +28,8 @@ export default class ClubList extends PureComponent {
       rightTitle={`${item.points} Bodova`}
       rightTitleStyle={styles.rightTitle}
       subtitle={`Broj članova: ${item.racers_count}`}
+      onPress={ () =>
+        this.props.navigation.navigate('Club', { clubId: item.id })}
     />
   );
 
@@ -41,7 +43,7 @@ export default class ClubList extends PureComponent {
             keyExtractor={({ id }) => id}
             renderItem={this.renderItem}
             data={clubs}
-            ListEmptyComponent={<Text> Nema podataka </Text>}
+            ListEmptyComponent={<ListItem title="Ucitavam klubove" hideChevron={true} />}
             onRefresh={this.loadClubs}
             refreshing={refreshing}
           />

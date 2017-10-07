@@ -43,7 +43,7 @@ export default class RaceList extends PureComponent {
             keyExtractor={({ id }) => id}
             renderItem={this.renderItem}
             data={races}
-            ListEmptyComponent={<Text> Ucitavam utrke </Text>}
+            ListEmptyComponent={<ListItem title="Ucitavam utrke" hideChevron={true}/>}
             onRefresh={this.loadRaces}
             refreshing={refreshing}
           />

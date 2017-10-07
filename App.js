@@ -7,6 +7,7 @@ import LoginScreen from './components/LoginScreen';
 import HomeScreen from './components/homeScreen';
 import RaceDetails from './components/raceDetails';
 import RacerDetails from './components/racerDetails';
+import ClubDetails from './components/clubDetails';
 
 const navigationOptions = ({navigation}) => {
   const header = (
@@ -37,7 +38,8 @@ const App = StackNavigator({
   Home: { screen: HomeScreen, navigationOptions },
   Login: { screen: LoginScreen, navigationOptions },
   Race: { screen: RaceDetails, navigationOptions },
-  Racer: { screen: RacerDetails, navigationOptions }
+  Racer: { screen: RacerDetails, navigationOptions },
+  Club: { screen: ClubDetails, navigationOptions }
 });
 
 export default App;

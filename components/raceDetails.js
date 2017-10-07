@@ -64,6 +64,8 @@ export default class RaceList extends React.Component {
         subtitle={this.getItemSubtitle(item, racer)}
         rightTitle={racer.club.name}
         hideChevron={true}
+        onPress={() =>
+            this.props.navigation.navigate('Racer', { racerId: racer.id })}
       />);
 
     render() {
@@ -80,7 +82,7 @@ export default class RaceList extends React.Component {
             <List>
                 <SectionList
                     keyExtractor={(item, index) => item.id}
-                    ListEmptyComponent={<Text> Ucitavam... </Text>}
+                    ListEmptyComponent={<ListItem title="Ucitavam..." hideChevron={true} />}
                     refreshing={refreshing}
                     onRefresh={this.loadRace}
                     sections={this.getSectionsWithData()}
