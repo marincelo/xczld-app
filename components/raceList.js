@@ -13,7 +13,7 @@ export default class RaceList extends React.PureComponent {
       this.loadRaces();
   }
 
-  loadRaces = load('races').bind(this);
+  loadRaces = load('races');
 
   renderItem = ({ item }) => (
     <ListItem

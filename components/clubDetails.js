@@ -1,4 +1,4 @@
-import { serverUrl } from '../constants';
+import { loadResource } from '../fetchHelper';
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
@@ -12,14 +12,7 @@ export default class ClubDetails extends React.Component {
     this.loadClub();
   }
 
-  loadClub = () => {
-    const { params } = this.props.navigation.state;
-
-    fetch(`${serverUrl}/clubs/${params.clubId}.json`)
-    .then(response => response.json())
-    .then(json => this.setState({club: json}))
-    .catch(error => console.log(error));
-  }
+  loadClub = loadResource('club', this.props.navigation.state.params.clubId);
 
   renderItem = ({ item }) => (
     <ListItem

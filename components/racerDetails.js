@@ -1,4 +1,4 @@
-import { serverUrl } from '../constants';
+import { loadResource } from '../fetchHelper';
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
@@ -12,14 +12,7 @@ export default class RacerDetails extends React.Component {
     this.loadRacer();
   }
 
-  loadRacer = () => {
-    const { params } = this.props.navigation.state;
-
-    fetch(`${serverUrl}/racers/${params.racerId}.json`)
-    .then(response => response.json())
-    .then(json => this.setState({racer: json}))
-    .catch(error => console.log(error));
-  }
+  loadRacer = loadResource('racer', this.props.navigation.state.params.racerId);
 
 
   renderItem = ({ item }) => (

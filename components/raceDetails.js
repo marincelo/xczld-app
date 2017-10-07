@@ -1,4 +1,5 @@
-import { serverUrl, categories, secondaryColor } from '../constants';
+import { categories, secondaryColor } from '../constants';
+import { loadResource } from '../fetchHelper';
 import React from 'react';
 import { View, SectionList } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
@@ -28,18 +29,7 @@ export default class RaceList extends React.Component {
         return sections;
     }
 
-    loadRace = () => {
-        const { params } = this.props.navigation.state;
-
-        this.setState({refreshing: true});
-
-        fetch(`${serverUrl}/races/${params.raceId}.json`)
-        .then(response => response.json())
-        .then(json => {
-            this.setState({race: json, refreshing: false});
-        })
-        .catch(error => console.log(error));
-    }
+    loadRace = loadResource('race', this.props.navigation.state.params.raceId);
 
     getItemSubtitle = (item, racer) => {
         if (this.state.race.ended_at) {

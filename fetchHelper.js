@@ -8,7 +8,7 @@ export const load = (type) => function () {
   .then(json => this.setState({[type]: json, refreshing: false}))
   .catch(error => console.log(error));
 },
-loadResource = (type) => function(resourceId) {
+loadResource = (type, resourceId) => function () {
   fetch(`${serverUrl}/${type}s/${resourceId}.json`)
   .then(response => response.json())
   .then(json => this.setState({[type]: json}))

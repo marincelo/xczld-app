@@ -15,7 +15,7 @@ export default class ClubList extends React.PureComponent {
     this.loadClubs();
   }
 
-  loadClubs = load('clubs').bind(this);
+  loadClubs = load('clubs');
 
   renderItem = ({ item }) => (
     <ListItem
