@@ -40,8 +40,30 @@ export default class RaceList extends React.Component {
 
   isUserRegistered = () => {
     const { race, user } = this.state;
+    return race.race_results && race.race_results.find(item => item.racer_id === user.id);
+  }
 
-    return !!race.race_results.find(item => item.racer.id === user.id);
+  userActions = () => {
+    const { user } = this.state;
+
+    if (!user) return;
+
+    if (this.isUserRegistered()) {
+      return (<Button
+        title={`Odjavi ${user.first_name}`}
+        iconRight={{ name: 'remove-circle-outline' }}
+        buttonStyle={{...styles.button, backgroundColor: secondaryColor, marginTop: 10}}
+        onPress={this.unRegisterRacer}
+      />);
+    }
+    else {
+      return (<Button
+        title={`Prijavi ${user.first_name}`}
+        iconRight={{ name: 'playlist-add-check' }}
+        buttonStyle={styles.button}
+        onPress={this.registerRacer}
+      />);
+    }
   }
 
   registerRacer = () => {
@@ -75,7 +97,7 @@ export default class RaceList extends React.Component {
 
   unRegisterRacer = () => {
     const { race, user } = this.state;
-    const raceResult = race.race_results.find(item => item.racer.id === user.id);
+    const raceResult = race.race_results.find(item => item.racer_id === user.id);
 
     const options = {
       method: 'DELETE',
@@ -130,22 +152,7 @@ export default class RaceList extends React.Component {
         {race && race.name}
       </Text>
       <View>
-        {
-          this.isUserRegistered ?
-          <Button
-              title={`Odjavi ${user.first_name}`}
-              iconRight={{ name: 'remove-circle-outline' }}
-              buttonStyle={{...styles.button, backgroundColor: secondaryColor, marginTop: 10}}
-              onPress={this.unRegisterRacer}
-          />
-          :
-          <Button
-              title={`Prijavi ${user.first_name}`}
-              iconRight={{ name: 'playlist-add-check' }}
-              buttonStyle={styles.button}
-              onPress={this.registerRacer}
-          />
-        }
+        { this.userActions() }
       </View>
       <Text h4 style={{ marginTop: 10, marginLeft: 20 }}>
         Natjecatelji
@@ -166,8 +173,8 @@ export default class RaceList extends React.Component {
 
 const styles = {
     container: {
-        // height: '70%',
-        // marginTop: 75
+        height: '85%',
+        marginTop: 75
     },
     leftIcon: {
         fontSize: 16,
