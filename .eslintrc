@@ -12,7 +12,7 @@
     "jasmine": true
   },
 
-  "plugins": ["flowtype", "prettier", "react"],
+  "plugins": ["react"],
 
   // Map from global var to bool specifying if it can be redefined
   "globals": {
@@ -53,11 +53,6 @@
   },
 
   "rules": {
-    // Flow Plugin
-    // The following rules are made available via `eslint-plugin-flowtype`
-    "flowtype/define-flow-type": 1,
-    "flowtype/use-flow-type": 1,
-
     // General
 
     // This must be disallowed in this repo because the minimum supported

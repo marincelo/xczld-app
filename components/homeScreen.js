@@ -2,6 +2,7 @@ import { TabNavigator } from 'react-navigation';
 
 import ClubList from './clubList';
 import RaceList from './raceList';
+import RacerList from './racerList';
 
 const HomeScreen = TabNavigator({
   Utrke: {
@@ -9,6 +10,9 @@ const HomeScreen = TabNavigator({
   },
   Klubovi: {
     screen: ClubList,
+  },
+  Natjecatelji: {
+    screen: RacerList,
   }
 },
 {

@@ -10,10 +10,10 @@ class LoginScreen extends React.PureComponent {
   }
 
   async componentWillMount() {
-    const emailInput = await AsyncStorage.getItem('@xczld:emailInput');
-    const phoneNumberInput = await AsyncStorage.getItem('@xczld:phoneNumberInput');
+    const user = await AsyncStorage.getItem('@xczld:user');
+    const {email, phone_number} = user;
 
-    this.setState({emailInput, phoneNumberInput});
+    this.setState({emailInput: email, phoneNumberInput: phone_number});
   }
 
   loginUser = () => {
@@ -33,13 +33,10 @@ class LoginScreen extends React.PureComponent {
         body: form
       };
 
-      fetch('http://10.14.253.138:3000/racers/login', options)
-      .then(response => {
-        return response.json();
-      })
+      fetch('http://xczld.herokuapp.com/racers/login', options)
+      .then(response => response.json())
       .then(json => AsyncStorage
-        .setItem('@xczld:emailInput', json.email)
-        .then( () => AsyncStorage.setItem('@xczld:phoneNumberInput', json.phone_number))
+        .setItem('@xczld:user', json)
         .then(() => {
           if (json.email && json.phone_number) {
             this.props.navigation.navigate('Home');

@@ -1,13 +1,12 @@
 // @flow
 import React from 'react';
-import { Provider } from 'react-redux';
 import { StackNavigator } from 'react-navigation';
 import { Header, Text, Icon } from 'react-native-elements';
 
-import store from './redux/store';
 import LoginScreen from './components/LoginScreen';
 import HomeScreen from './components/homeScreen';
 import RaceDetails from './components/raceDetails';
+import RacerDetails from './components/racerDetails';
 
 const navigationOptions = ({navigation}) => {
   const header = (
@@ -19,8 +18,7 @@ const navigationOptions = ({navigation}) => {
       }
       rightComponent={
         <Icon
-          name="person"
-          type="ionicons"
+          name="fingerprint"
           color="#fff"
           onPress={ () => navigation.navigate('Login') }
         />
@@ -34,19 +32,12 @@ const navigationOptions = ({navigation}) => {
   };
 };
 
-const Navigator = StackNavigator({
+
+const App = StackNavigator({
   Home: { screen: HomeScreen, navigationOptions },
   Login: { screen: LoginScreen, navigationOptions },
-  Race: { screen: RaceDetails, navigationOptions }
+  Race: { screen: RaceDetails, navigationOptions },
+  Racer: { screen: RacerDetails, navigationOptions }
 });
-
-
-const App = () => {
-  return (
-    <Provider store={store}>
-      <Navigator />
-    </Provider>
-  );
-};
 
 export default App;

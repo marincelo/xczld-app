@@ -1,58 +1,28 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { FlatList, View } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
-import type { NavigationNavigatorProps } from 'react-navigation';
-import connect from '../redux/connect';
-import * as actions from '../redux/modules/clubs';
-import { getIsLoading, getClubs } from '../redux/selectors/clubs';
-import noop from '../utils/noop';
 
-type Club = {
-  name: string,
-  points: number,
-  racers_count: number
-};
 
-type Info = {
-  item: Club
-};
-
-type Props = {
-  load: () => mixed,
-  initialLoad: () => mixed,
-  clubs: Club[],
-  isLoading: boolean,
-  navigation: NavigationNavigatorProps
-};
-
-type DefaultProps = {
-  clubs: [],
-  isLoading: boolean
-};
-
-@connect(
-  {
-    clubs: getClubs,
-    isLoading: getIsLoading
-  },
-  {
-    load: actions.load,
-    initialLoad: actions.initialLoad
-  }
-)
-class ClubList extends PureComponent<DefaultProps, Props, void> {
-  static defaultProps = {
+export default class ClubList extends PureComponent {
+  state = {
     clubs: [],
-    isLoading: false,
-    load: noop
-  };
+    refreshing: false
+  }
 
   componentDidMount() {
-    this.props.initialLoad();
+      this.loadClubs();
   }
 
-  renderItem = ({ item }: Info) => (
+  loadClubs = () => {
+      this.setState({refreshing: true})
+
+      fetch('http://xczld.herokuapp.com/clubs.json')
+      .then(response => response.json())
+      .then(json => this.setState({clubs: json, refreshing: false}))
+      .catch(error => console.log(error))
+  }
+
+  renderItem = ({ item }) => (
     <ListItem
       title={`${item.name}`}
       rightTitle={`${item.points} Bodova`}
@@ -62,7 +32,7 @@ class ClubList extends PureComponent<DefaultProps, Props, void> {
   );
 
   render() {
-    const { clubs, load, isLoading } = this.props;
+    const { clubs, refreshing } = this.state;
 
     return (
       <View>
@@ -72,16 +42,14 @@ class ClubList extends PureComponent<DefaultProps, Props, void> {
             renderItem={this.renderItem}
             data={clubs}
             ListEmptyComponent={<Text> Nema podataka </Text>}
-            onRefresh={load}
-            refreshing={!!isLoading}
+            onRefresh={this.loadClubs}
+            refreshing={refreshing}
           />
         </List>
       </View>
     );
   }
 }
-
-export default ClubList;
 
 const styles = {
   list: {

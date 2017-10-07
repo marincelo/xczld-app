@@ -1,57 +1,29 @@
-// @flow
 import React, { PureComponent } from 'react';
 import { FlatList, View } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
-import type { NavigationNavigatorProps } from 'react-navigation';
-import connect from '../redux/connect';
-import * as actions from '../redux/modules/races';
-import { getIsLoading, getRaces } from '../redux/selectors/races';
 
-type Race = {
-  id: number,
-  name: string,
-  date: string,
-  ended_at: string
-};
-
-type Info = {
-  item: Race
-};
-
-type Props = {
-  load: () => mixed,
-  initialLoad: () => mixed,
-  races: Race[],
-  isLoading: boolean,
-  navigation: NavigationNavigatorProps
-};
-
-type DefaultProps = {
-  races: [],
-  isLoading: boolean
-};
-
-@connect(
-  {
-    races: getRaces,
-    isLoading: getIsLoading
-  },
-  {
-    load: actions.load,
-    initialLoad: actions.initialLoad
-  }
-)
-class RaceList extends PureComponent<DefaultProps, Props, void> {
-  static defaultProps = {
+export default class RaceList extends PureComponent {
+  state = {
     races: [],
-    isLoading: false
-  };
+    refreshing: false
+  }
 
   componentDidMount() {
-    this.props.initialLoad();
+      this.loadRaces();
   }
 
-  renderItem = ({ item }: Info) => (
+  loadRaces = () => {
+      this.setState({refreshing: true});
+
+      fetch('http://xczld.herokuapp.com/races.json')
+      .then(response => response.json())
+      .then(json => {
+          this.setState({races: json, refreshing: false});
+      })
+      .catch(error => console.log(error));
+  }
+
+  renderItem = ({ item }) => (
     <ListItem
       title={`${item.name}`}
       subtitle={new Date(item.date).toLocaleString()}
@@ -62,7 +34,7 @@ class RaceList extends PureComponent<DefaultProps, Props, void> {
   );
 
   render() {
-    const { races, load, isLoading } = this.props;
+    const { races, refreshing } = this.state;
 
     return (
       <View>
@@ -72,16 +44,14 @@ class RaceList extends PureComponent<DefaultProps, Props, void> {
             renderItem={this.renderItem}
             data={races}
             ListEmptyComponent={<Text> Ucitavam utrke </Text>}
-            onRefresh={load}
-            refreshing={!!isLoading}
+            onRefresh={this.loadRaces}
+            refreshing={refreshing}
           />
         </List>
       </View>
     );
   }
 }
-
-export default RaceList;
 
 const style = {
   height: '100%'
