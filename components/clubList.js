@@ -14,12 +14,12 @@ export default class ClubList extends PureComponent {
   }
 
   loadClubs = () => {
-      this.setState({refreshing: true})
+      this.setState({refreshing: true});
 
       fetch('http://xczld.herokuapp.com/clubs.json')
       .then(response => response.json())
       .then(json => this.setState({clubs: json, refreshing: false}))
-      .catch(error => console.log(error))
+      .catch(error => console.log(error));
   }
 
   renderItem = ({ item }) => (

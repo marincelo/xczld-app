@@ -46,7 +46,7 @@ class LoginScreen extends React.PureComponent {
       .catch(error => this.setState({errorMessage: error}));
     }
     else {
-      this.setState({errorMessage: 'Unesi email i broj mobitela i pokusaj ponovno.'})
+      this.setState({errorMessage: 'Unesi email i broj mobitela i pokusaj ponovno.'});
     }
   };
 
