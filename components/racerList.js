@@ -2,7 +2,7 @@ import { secondaryColor } from '../constants';
 import { load } from '../fetchHelper';
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { List, ListItem, Text } from 'react-native-elements';
+import { ListItem, Text } from 'react-native-elements';
 
 export default class RacerList extends React.Component {
   state = {
@@ -32,16 +32,15 @@ export default class RacerList extends React.Component {
 
     return (
       <View>
-        <List style={styles.list}>
-          <FlatList
-            keyExtractor={({ id }) => id}
-            renderItem={this.renderItem}
-            data={racers}
-            ListEmptyComponent={<ListItem title="Ucitavam natjecatelje" hideChevron={true} />}
-            onRefresh={this.loadRacers}
-            refreshing={refreshing}
-          />
-        </List>
+        <FlatList
+          style={styles.list}
+          keyExtractor={({ id }) => id}
+          renderItem={this.renderItem}
+          data={racers}
+          ListEmptyComponent={<ListItem title="Ucitavam natjecatelje" hideChevron={true} />}
+          onRefresh={this.loadRacers}
+          refreshing={refreshing}
+        />
       </View>
     );
   }

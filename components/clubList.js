@@ -2,7 +2,7 @@ import { secondaryColor } from '../constants';
 import { load } from '../fetchHelper';
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 
 
 export default class ClubList extends React.PureComponent {

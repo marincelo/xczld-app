@@ -16,7 +16,7 @@ export default class RaceList extends React.Component {
     AsyncStorage.getItem('@xczld:user')
     .then(user_data => {
       if (user_data){
-       this.setState({ user: JSON.parse(user_data) })
+       this.setState({ user: JSON.parse(user_data) });
       }
     });
   }
@@ -46,7 +46,7 @@ export default class RaceList extends React.Component {
   userActions = () => {
     const { user } = this.state;
 
-    if (!user) return;
+    if (!user) { return; }
 
     if (this.isUserRegistered()) {
       return (<Button
@@ -145,7 +145,7 @@ export default class RaceList extends React.Component {
   />);
 
   render() {
-    const {race, refreshing, user} = this.state;
+    const {race, refreshing} = this.state;
 
     return (<View style={styles.container}>
       <Text h2 style={{textAlign: 'center'}}>
