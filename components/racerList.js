@@ -1,4 +1,5 @@
-import { serverUrl, secondaryColor } from '../constants';
+import { secondaryColor } from '../constants';
+import { load } from '../fetchHelper';
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { List, ListItem, Text } from 'react-native-elements';
@@ -13,14 +14,7 @@ export default class RacerList extends React.Component {
     this.loadRacers();
   }
 
-  loadRacers = () => {
-    this.setState({refreshing: true});
-
-    fetch(`${serverUrl}/racers.json`)
-    .then(response => response.json())
-    .then(json => this.setState({racers: json, refreshing: false}))
-    .catch(error => console.log(error));
-  }
+  loadRacers = load('racers').bind(this);
 
   renderItem = ({ item }) => (
     <ListItem

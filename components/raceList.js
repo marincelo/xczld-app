@@ -1,4 +1,4 @@
-import { serverUrl } from '../constants';
+import { load } from '../fetchHelper';
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
@@ -13,14 +13,7 @@ export default class RaceList extends React.PureComponent {
       this.loadRaces();
   }
 
-  loadRaces = () => {
-      this.setState({refreshing: true});
-
-      fetch(`${serverUrl}/races.json`)
-      .then(response => response.json())
-      .then(json => this.setState({races: json, refreshing: false}))
-      .catch(error => console.log(error));
-  }
+  loadRaces = load('races').bind(this);
 
   renderItem = ({ item }) => (
     <ListItem

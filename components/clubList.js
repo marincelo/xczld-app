@@ -1,4 +1,5 @@
-import { serverUrl, secondaryColor } from '../constants';
+import { secondaryColor } from '../constants';
+import { load } from '../fetchHelper';
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
@@ -11,17 +12,10 @@ export default class ClubList extends React.PureComponent {
   }
 
   componentDidMount() {
-      this.loadClubs();
+    this.loadClubs();
   }
 
-  loadClubs = () => {
-      this.setState({refreshing: true});
-
-      fetch(`${serverUrl}/clubs.json`)
-      .then(response => response.json())
-      .then(json => this.setState({clubs: json, refreshing: false}))
-      .catch(error => console.log(error));
-  }
+  loadClubs = load('clubs').bind(this);
 
   renderItem = ({ item }) => (
     <ListItem

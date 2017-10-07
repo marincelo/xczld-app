@@ -21,7 +21,6 @@ export default class ClubDetails extends React.Component {
     .catch(error => console.log(error));
   }
 
-
   renderItem = ({ item }) => (
     <ListItem
       title={`${item.first_name} ${item.last_name}`}
@@ -30,7 +29,6 @@ export default class ClubDetails extends React.Component {
         this.props.navigation.navigate('Racer', { racerId: item.id })}
     />
   );
-
 
   render() {
     const {club} = this.state;
