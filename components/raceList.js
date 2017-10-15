@@ -20,6 +20,8 @@ export default class RaceList extends React.PureComponent {
       title={`${item.name}`}
       subtitle={new Date(item.date).toLocaleString()}
       rightTitle={item.ended_at ? 'Zavrsena' : 'Nadolazeca'}
+      avatar={{ uri: item.picture_url }}
+      roundAvatar
       onPress={() =>
         this.props.navigation.navigate('Race', { raceId: item.id })}
     />

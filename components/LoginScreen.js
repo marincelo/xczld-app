@@ -20,37 +20,42 @@ class LoginScreen extends React.PureComponent {
   }
 
   loginUser = () => {
-    const { emailInput, phoneNumberInput } = this.state;
+    AsyncStorage.removeItem('@xczld:user').then(() => {
+      const { emailInput, phoneNumberInput } = this.state;
 
-    if (emailInput && phoneNumberInput) {
-      const form = new FormData();
+      if (emailInput && phoneNumberInput) {
+        const form = new FormData();
 
-      form.append('racer[email]', emailInput);
-      form.append('racer[phone_number]', phoneNumberInput);
+        form.append('racer[email]', emailInput);
+        form.append('racer[phone_number]', phoneNumberInput);
 
-      const options = {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json'
-        },
-        body: form
-      };
+        const options = {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json'
+          },
+          body: form
+        };
 
-      fetch(`${serverUrl}/racers/login`, options)
-      .then(response => response.json())
-      .then(json => AsyncStorage
-        .setItem('@xczld:user', JSON.stringify(json))
-        .then(() => {
-          if (json.email && json.phone_number) {
-            this.props.navigation.navigate('Home');
-          }
-        })
-      )
-      .catch(error => this.setState({errorMessage: error.message}));
-    }
-    else {
-      this.setState({errorMessage: 'Unesi email i broj mobitela i pokusaj ponovno.'});
-    }
+        fetch(`${serverUrl}/racers/login`, options)
+        .then(response => response.json())
+        .then(json => AsyncStorage
+          .setItem('@xczld:user', JSON.stringify(json))
+          .then(() => {
+            if (json.email && json.phone_number) {
+              this.props.navigation.navigate('Home');
+            }
+            else {
+              this.setState({errorMessage: 'Pogresan unos. Pokusaj ponovno.'});
+            }
+          })
+        )
+        .catch(error => this.setState({errorMessage: error.message}));
+      }
+      else {
+        this.setState({errorMessage: 'Unesi email i broj mobitela i pokusaj ponovno.'});
+      }
+    });
   };
 
   render() {
