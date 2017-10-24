@@ -23,11 +23,10 @@ export default class RaceList extends React.Component {
     });
   }
 
-  getSectionsWithData = () => {
-    const { race_results } = this.state.race;
-    const racers = race_results.map( race_result => race_result.racer);
+  getSections = () => {
+    const { race, race: { race_results } } = this.state;
 
-    return getSectionsWithData(racers);
+    return getSectionsWithData(race_results, race);
   }
 
   loadRace = loadResource('race', this.props.navigation.state.params.raceId).bind(this);
@@ -38,9 +37,9 @@ export default class RaceList extends React.Component {
   }
 
   userActions = () => {
-    const { user } = this.state;
+    const { user, race } = this.state;
 
-    if (!user.email) { return; }
+    if (!user.email || race.ended_at) { return; }
 
     if (this.isUserRegistered()) {
       return (<Button
@@ -116,31 +115,32 @@ export default class RaceList extends React.Component {
 
   getItemSubtitle = (item, racer) => {
     if (this.state.race.ended_at) {
-        return `Kategorija: ${racer.category.toUpperCase()}  Vrijeme: ${item.finish_time}  Bodovi: ${item.points}`;
+        return `Vrijeme: ${item.finish_time} Bodovi: ${item.points || '-'}`;
     }
     else {
         return `Kategorija: ${racer.category.toUpperCase()}`;
     }
   }
 
-  renderSectionHeader = ({section}) => (<ListItem
+  renderSectionHeader = ({ section }) => (<ListItem
     titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
-    title={section.title}
-    subtitle={`${section.count} prijavljenih`}
-    hideChevron={true}
+    title={ section.title }
+    subtitle={ `${section.count} prijavljenih` }
+    hideChevron={ true }
   />);
 
-  renderListItem = ({item, item: {racer}})=>(<ListItem
+  renderListItem = ({ item, item: { racer } })=>(<ListItem
     leftIcon={<Text style={styles.leftIcon}> {racer.start_number.value} </Text>}
     title={`${racer.first_name} ${racer.last_name}`}
     subtitle={this.getItemSubtitle(item, racer)}
+    subtitleNumberOfLines={ 3 }
     rightTitle={racer.club.name}
     onPress={() =>
         this.props.navigation.navigate('Racer', { racerId: racer.id })}
   />);
 
   render() {
-    const {race, refreshing} = this.state;
+    const { race, refreshing } = this.state;
 
     return (<View style={styles.container}>
       <Text h2 style={{textAlign: 'center'}}>
@@ -158,7 +158,7 @@ export default class RaceList extends React.Component {
           ListEmptyComponent={<ListItem title="Ucitavam..." hideChevron={true} />}
           refreshing={refreshing}
           onRefresh={this.loadRace}
-          sections={this.getSectionsWithData()}
+          sections={this.getSections()}
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderListItem}
       />

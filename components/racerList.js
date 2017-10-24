@@ -17,6 +17,14 @@ export default class RacerList extends React.Component {
 
   loadRacers = load('racers').bind(this);
 
+
+  renderSectionHeader = ({section}) => (<ListItem
+    titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
+    title={section.title}
+    subtitle={`${section.count} natjecatelja`}
+    hideChevron={true}
+  />);
+
   renderItem = ({ item }) => (
     <ListItem
       leftIcon={<Text style={styles.leftIcon}>{item.start_number.value}</Text>}

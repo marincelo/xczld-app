@@ -1,12 +1,25 @@
 import { categories } from './constants';
 
-export const compareRacers = (a, b) => {
-  if (this.state.race.ended_at) {
+const compareRacers = (a, b) => {
+  // sort by points
+  if (a.total_points < b.total_points) {
+    return 1;
+  }
+  else if (a.total_points >  b.total_points) {
+    return -1;
+  }
+  else {
+    return 0;
+  }
+}
+
+const compareRaceResults = (race) => (a, b) => {
+  if (race.ended_at) {
     // sort by finish_time
-    if (a.racer.finish_time > b.racer.finish_time) {
+    if (a.finish_time > b.finish_time) {
       return 1;
     }
-    else if (a.racer.finish_time <  b.racer.finish_time) {
+    else if (a.finish_time <  b.finish_time) {
       return -1;
     }
     else {
@@ -27,14 +40,25 @@ export const compareRacers = (a, b) => {
   }
 };
 
-export const getSectionsWithData = (racers) => {
+export const getSectionsWithData = (items, race) => {
   const sections = [];
 
-  if (racers) {
+  if (items && items.length > 0) {
     categories.forEach(category => {
-      const data = racers
+      if (items[0].racer_id) { // race results
+        var data = items.filter(({ racer }) => racer.category === category);
+
+        const finished = data.filter( raceResult => raceResult.status === 3 ).sort(compareRaceResults(race));
+        const unfinished = data.filter( raceResult => raceResult.status !== 3 ).sort(compareRaceResults(race));
+
+
+        data = finished.concat(unfinished);
+      }
+      else { // racers
+        var data = items
         .filter(racer => racer.category === category)
         .sort(compareRacers);
+      }
 
       sections.push({
         title: category.toUpperCase(),

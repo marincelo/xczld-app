@@ -17,9 +17,9 @@ export default class RaceList extends React.PureComponent {
 
   renderItem = ({ item }) => (
     <ListItem
-      title={`${item.name}`}
-      subtitle={new Date(item.date).toLocaleString()}
-      rightTitle={item.ended_at ? 'Zavrsena' : 'Nadolazeca'}
+      title={ item.name }
+      subtitle={ (new Date(item.date)).toDateString() }
+      rightTitle={ item.ended_at ? 'Zavrsena' : 'Nadolazeca' }
       avatar={{ uri: item.picture_url }}
       roundAvatar
       onPress={() =>
