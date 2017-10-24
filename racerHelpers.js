@@ -5,15 +5,7 @@ import { ListItem } from 'react-native-elements';
 
 const compareRacers = (a, b) => {
   // sort by points
-  if (a.total_points < b.total_points) {
-    return 1;
-  }
-  else if (a.total_points >  b.total_points) {
-    return -1;
-  }
-  else {
-    return 0;
-  }
+  return b.total_points - a.total_points;
 };
 
 const compareRaceResults = (race) => (a, b) => {
@@ -31,15 +23,7 @@ const compareRaceResults = (race) => (a, b) => {
   }
   else {
     // sort by start_number
-    if (a.racer.start_number.value > b.racer.start_number.value) {
-      return 1;
-    }
-    else if (a.racer.start_number.value <  b.racer.start_number.value) {
-      return -1;
-    }
-    else {
-      return 0;
-    }
+    return a.racer.start_number.value - b.racer.start_number.value;
   }
 };
 
