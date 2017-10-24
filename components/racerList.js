@@ -1,7 +1,8 @@
 import { secondaryColor } from '../constants';
+import { getSectionsWithData, renderSectionHeader } from '../racerHelpers';
 import { load } from '../fetchHelper';
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { SectionList, View } from 'react-native';
 import { ListItem, Text } from 'react-native-elements';
 
 export default class RacerList extends React.Component {
@@ -28,18 +29,18 @@ export default class RacerList extends React.Component {
   );
 
   render() {
-    const { racers, refreshing } = this.state;
+    const { refreshing, racers } = this.state;
 
     return (
       <View>
-        <FlatList
-          style={styles.list}
+        <SectionList
           keyExtractor={({ id }) => id}
-          renderItem={this.renderItem}
-          data={racers}
           ListEmptyComponent={<ListItem title="Ucitavam natjecatelje" hideChevron={true} />}
-          onRefresh={this.loadRacers}
           refreshing={refreshing}
+          onRefresh={this.loadRacers}
+          sections={getSectionsWithData(racers)}
+          renderSectionHeader={renderSectionHeader}
+          renderItem={this.renderItem}
         />
       </View>
     );
