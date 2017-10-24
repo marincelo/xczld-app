@@ -1,4 +1,7 @@
 import { categories } from './constants';
+import React from 'react';
+import { ListItem } from 'react-native-elements';
+
 
 const compareRacers = (a, b) => {
   // sort by points
@@ -11,7 +14,7 @@ const compareRacers = (a, b) => {
   else {
     return 0;
   }
-}
+};
 
 const compareRaceResults = (race) => (a, b) => {
   if (race.ended_at) {
@@ -69,3 +72,10 @@ export const getSectionsWithData = (items, race) => {
   }
   return sections;
 };
+
+export const renderSectionHeader = ({section}) => (<ListItem
+  titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
+  title={section.title}
+  subtitle={`${section.count} natjecatelja`}
+  hideChevron={true}
+/>);

@@ -1,5 +1,5 @@
 import { secondaryColor } from '../constants';
-import { getSectionsWithData } from '../racerHelpers';
+import { getSectionsWithData, renderSectionHeader } from '../racerHelpers';
 import { load } from '../fetchHelper';
 import React from 'react';
 import { SectionList, View } from 'react-native';
@@ -16,14 +16,6 @@ export default class RacerList extends React.Component {
   }
 
   loadRacers = load('racers').bind(this);
-
-
-  renderSectionHeader = ({section}) => (<ListItem
-    titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
-    title={section.title}
-    subtitle={`${section.count} natjecatelja`}
-    hideChevron={true}
-  />);
 
   renderItem = ({ item }) => (
     <ListItem
@@ -47,7 +39,7 @@ export default class RacerList extends React.Component {
           refreshing={refreshing}
           onRefresh={this.loadRacers}
           sections={getSectionsWithData(racers)}
-          renderSectionHeader={this.renderSectionHeader}
+          renderSectionHeader={renderSectionHeader}
           renderItem={this.renderItem}
         />
       </View>

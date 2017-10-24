@@ -1,5 +1,5 @@
 import { serverUrl, primaryColor, secondaryColor } from '../constants';
-import { getSectionsWithData } from '../racerHelpers';
+import { getSectionsWithData, renderSectionHeader } from '../racerHelpers';
 import { loadResource } from '../fetchHelper';
 import React from 'react';
 import { View, SectionList, AsyncStorage, ToastAndroid } from 'react-native';
@@ -122,13 +122,6 @@ export default class RaceList extends React.Component {
     }
   }
 
-  renderSectionHeader = ({ section }) => (<ListItem
-    titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
-    title={ section.title }
-    subtitle={ `${section.count} prijavljenih` }
-    hideChevron={ true }
-  />);
-
   renderListItem = ({ item, item: { racer } })=>(<ListItem
     leftIcon={<Text style={styles.leftIcon}> {racer.start_number.value} </Text>}
     title={`${racer.first_name} ${racer.last_name}`}
@@ -159,7 +152,7 @@ export default class RaceList extends React.Component {
           refreshing={refreshing}
           onRefresh={this.loadRace}
           sections={this.getSections()}
-          renderSectionHeader={this.renderSectionHeader}
+          renderSectionHeader={renderSectionHeader}
           renderItem={this.renderListItem}
       />
     </View>);
