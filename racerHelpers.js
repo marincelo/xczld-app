@@ -1,3 +1,5 @@
+import { categories } from './constants';
+
 export const compareRacers = (a, b) => {
   if (this.state.race.ended_at) {
     // sort by finish_time
@@ -23,4 +25,23 @@ export const compareRacers = (a, b) => {
       return 0;
     }
   }
+};
+
+export const getSectionsWithData = (racers) => {
+  const sections = [];
+
+  if (racers) {
+    categories.forEach(category => {
+      const data = racers
+        .filter(racer => racer.category === category)
+        .sort(compareRacers);
+
+      sections.push({
+        title: category.toUpperCase(),
+        count: data.length,
+        data: data
+      });
+    });
+  }
+  return sections;
 };

@@ -1,5 +1,5 @@
-import { serverUrl, categories, primaryColor, secondaryColor } from '../constants';
-import { compareRacers } from '../racerHelpers';
+import { serverUrl, primaryColor, secondaryColor } from '../constants';
+import { getSectionsWithData } from '../racerHelpers';
 import { loadResource } from '../fetchHelper';
 import React from 'react';
 import { View, SectionList, AsyncStorage, ToastAndroid } from 'react-native';
@@ -25,21 +25,9 @@ export default class RaceList extends React.Component {
 
   getSectionsWithData = () => {
     const { race_results } = this.state.race;
-    const sections = [];
+    const racers = race_results.map( race_result => race_result.racer);
 
-    if (race_results) {
-      categories.forEach(category => {
-        const data = race_results
-          .filter(({racer}) => racer.category === category)
-          .sort(compareRacers);
-        sections.push({
-          title: category.toUpperCase(),
-          count: data.length,
-          data: data
-        });
-      });
-    }
-    return sections;
+    return getSectionsWithData(racers);
   }
 
   loadRace = loadResource('race', this.props.navigation.state.params.raceId).bind(this);

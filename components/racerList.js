@@ -1,8 +1,8 @@
-import { categories, secondaryColor } from '../constants';
-import { compareRacers } from '../racerHelpers';
+import { secondaryColor } from '../constants';
+import { getSectionsWithData } from '../racerHelpers';
 import { load } from '../fetchHelper';
 import React from 'react';
-import { SectionList, FlatList, View } from 'react-native';
+import { SectionList, View } from 'react-native';
 import { ListItem, Text } from 'react-native-elements';
 
 export default class RacerList extends React.Component {
@@ -17,25 +17,6 @@ export default class RacerList extends React.Component {
 
   loadRacers = load('racers').bind(this);
 
-  getSectionsWithData = () => {
-    const { racers } = this.state.race;
-    const sections = [];
-
-    if (racers) {
-      categories.forEach(category => {
-        const data = racers
-          .filter(({racer}) => racer.category === category)
-          .sort(compareRacers);
-        sections.push({
-          title: category.toUpperCase(),
-          count: data.length,
-          data: data
-        });
-      });
-    }
-    return sections;
-  }
-
   renderItem = ({ item }) => (
     <ListItem
       leftIcon={<Text style={styles.leftIcon}>{item.start_number.value}</Text>}
@@ -48,25 +29,16 @@ export default class RacerList extends React.Component {
   );
 
   render() {
-    const { refreshing } = this.state;
+    const { refreshing, racers } = this.state;
 
     return (
       <View>
-        {/* <FlatList
-          style={styles.list}
-          keyExtractor={({ id }) => id}
-          renderItem={this.renderItem}
-          data={racers}
-          ListEmptyComponent={<ListItem title="Ucitavam natjecatelje" hideChevron={true} />}
-          onRefresh={this.loadRacers}
-          refreshing={refreshing}
-        /> */}
         <SectionList
           keyExtractor={({ id }) => id}
           ListEmptyComponent={<ListItem title="Ucitavam natjecatelje" hideChevron={true} />}
           refreshing={refreshing}
           onRefresh={this.loadRacers}
-          sections={this.getSectionsWithData()}
+          sections={getSectionsWithData(racers)}
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderItem}
         />
