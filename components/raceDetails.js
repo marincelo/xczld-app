@@ -41,6 +41,11 @@ export default class RaceList extends React.Component {
 
     if (!user.email || race.ended_at) { return; }
 
+    const raceDate = new Date(race.date);
+    const now = new Date();
+    // do not show button if less that 24 hours until race start
+    if ( (raceDate - now) < 24 * 3600 * 1000 )  { return; }
+
     if (this.isUserRegistered()) {
       return (<Button
         title={`Odjavi ${user.first_name} ${user.last_name}`}
